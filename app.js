@@ -308,7 +308,7 @@ function setupButtons(){
 async function loadMapSVG(){
   const hint = $("#hint");
   try{
-    const res = await fetch("assets/middle-earth.svg", { cache: "no-store" });
+    const res = await fetch("assets/Map_of_Middle-Earth.png", { cache: "no-store" });
     if (!res.ok) throw new Error("missing");
     const text = await res.text();
 
