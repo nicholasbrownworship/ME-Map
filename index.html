@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Middle-earth — War of Influence</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brandTitle">Middle-earth</div>
+      <div class="brandSub">War of Influence • Map Campaign Tracker</div>
+    </div>
+    <div class="topActions">
+      <button id="btnExport" class="btn">Export</button>
+      <button id="btnImport" class="btn">Import</button>
+      <input id="importFile" type="file" accept="application/json" hidden />
+      <button id="btnReset" class="btn btnDanger">Reset</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="mapPanel">
+      <div class="mapFrame" id="mapFrame" aria-label="Middle-earth map">
+        <div class="mapStage" id="mapStage">
+          <div class="mapSvgHost" id="mapSvgHost" aria-hidden="true"></div>
+          <svg class="overlay" id="overlay" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Region overlay"></svg>
+          <div class="hint" id="hint">
+            <div class="hintTitle">Setup step</div>
+            <div class="hintBody">
+              Put your map SVG at <code>assets/middle-earth.svg</code>.
+              Then reload.
+            </div>
+            <div class="hintSmall">
+              The starter project is wired for the CC BY-SA map from Wikimedia Commons / mapome.
+              See <code>ATTRIBUTION.md</code>.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mapFooter">
+        <div class="pill">Click a region to edit influence</div>
+        <div class="pill" id="statusPill">No region selected</div>
+      </div>
+    </section>
+
+    <aside class="sidePanel">
+      <section class="card">
+        <h2>Selected Region</h2>
+        <div class="selectedRow">
+          <div>
+            <div class="big" id="selName">—</div>
+            <div class="muted" id="selDesc">Click a region on the map or from the list.</div>
+          </div>
+          <div class="influenceBox">
+            <div class="influenceNum" id="selInfluence">—</div>
+            <div class="muted">Influence</div>
+          </div>
+        </div>
+
+        <div class="btnRow">
+          <button class="btn" id="btnPlus">+25%</button>
+          <button class="btn" id="btnMinus">-25%</button>
+          <button class="btn" id="btnSet50">Set 50%</button>
+          <button class="btn" id="btnSet100">Set 100%</button>
+        </div>
+
+        <div class="divider"></div>
+
+        <label class="fieldLabel" for="selBonus">Controlled Bonus (100%)</label>
+        <textarea id="selBonus" class="field" rows="3" placeholder="e.g., Once per battle: re-roll one Injury roll."></textarea>
+
+        <label class="fieldLabel" for="selFoothold">Foothold Bonus (50%)</label>
+        <textarea id="selFoothold" class="field" rows="2" placeholder="e.g., +1 to a single Rout test."></textarea>
+
+        <div class="smallRow">
+          <button class="btn btnGhost" id="btnSaveNotes">Save Notes</button>
+          <span class="muted" id="saveMsg"></span>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="cardHead">
+          <h2>Regions</h2>
+          <input id="regionSearch" class="search" placeholder="Search…" />
+        </div>
+        <div class="regionList" id="regionList"></div>
+      </section>
+
+      <section class="card">
+        <div class="cardHead">
+          <h2>Campaign Log</h2>
+          <button class="btn btnGhost" id="btnClearLog">Clear</button>
+        </div>
+        <div class="log" id="log"></div>
+      </section>
+    </aside>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

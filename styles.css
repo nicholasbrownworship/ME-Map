@@ -1,0 +1,252 @@
+/* Middle-earth — War of Influence
+   Minimal, readable UI + map overlay.
+
+   Tip: the overlay uses your SVG's viewBox so it should scale cleanly.
+*/
+
+:root{
+  --bg:#0b0f14;
+  --panel:#121826;
+  --panel2:#0f1726;
+  --line:#243048;
+  --line2:#38507a;
+  --text:#e8eef6;
+  --muted:rgba(232,238,246,.72);
+  --muter:rgba(232,238,246,.52);
+  --good:#2bd4a6;
+  --warn:#ffcc66;
+  --bad:#ff6b6b;
+  --accent:#8ad1ff;
+  --shadow: 0 14px 40px rgba(0,0,0,.35);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+*{ box-sizing:border-box; }
+body{ margin:0; background:var(--bg); color:var(--text); }
+
+.topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; padding:14px 16px; border-bottom:1px solid var(--line);
+  position:sticky; top:0; background:linear-gradient(180deg, rgba(11,15,20,.98), rgba(11,15,20,.92));
+  z-index: 10;
+}
+.brandTitle{ font-weight:900; letter-spacing:.3px; font-size:18px; }
+.brandSub{ font-size:12px; color:var(--muted); margin-top:2px; }
+.topActions{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+
+.layout{
+  display:grid;
+  grid-template-columns: minmax(540px, 1.6fr) minmax(340px, 1fr);
+  gap:14px;
+  padding:14px;
+}
+@media (max-width: 1020px){
+  .layout{ grid-template-columns: 1fr; }
+}
+
+.mapPanel{ display:flex; flex-direction:column; gap:10px; }
+.mapFrame{
+  background: radial-gradient(1200px 500px at 20% 20%, rgba(138,209,255,.12), transparent 55%),
+              radial-gradient(900px 520px at 85% 60%, rgba(200,255,138,.10), transparent 55%),
+              var(--panel);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  min-height: 66vh;
+}
+.mapStage{
+  position:relative;
+  width:100%;
+  height:100%;
+  min-height: 66vh;
+}
+.mapSvgHost{
+  position:absolute; inset:0;
+  display:flex;
+  align-items:stretch; justify-content:stretch;
+  background: rgba(0,0,0,.12);
+}
+.mapSvgHost svg, .mapSvgHost object{
+  width:100%; height:100%;
+}
+.overlay{
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  pointer-events:auto;
+}
+.hint{
+  position:absolute; left:16px; bottom:16px;
+  max-width: 520px;
+  background: rgba(18,24,38,.92);
+  border:1px solid var(--line2);
+  border-radius:14px;
+  padding:12px 12px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.45);
+}
+.hintTitle{ font-weight:800; margin-bottom:6px; }
+.hintBody{ color:var(--muted); line-height:1.3; }
+.hintSmall{ color:var(--muter); font-size:12px; margin-top:8px; }
+code{
+  background: rgba(138,209,255,.14);
+  border: 1px solid rgba(138,209,255,.25);
+  padding: 1px 6px;
+  border-radius: 8px;
+}
+
+.mapFooter{ display:flex; flex-wrap:wrap; gap:8px; }
+.pill{
+  font-size:12px;
+  color:var(--muted);
+  background: rgba(18,24,38,.75);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 10px;
+}
+
+.sidePanel{ display:flex; flex-direction:column; gap:14px; }
+.card{
+  background: var(--panel2);
+  border:1px solid var(--line);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  padding:12px;
+}
+.card h2{ margin:0 0 10px; font-size:14px; letter-spacing:.2px; }
+.cardHead{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  margin-bottom:8px;
+}
+.search{
+  width: 48%;
+  min-width: 160px;
+  padding:8px 10px;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background: rgba(0,0,0,.22);
+  color:var(--text);
+}
+.search::placeholder{ color: rgba(232,238,246,.45); }
+
+.btn{
+  border:1px solid var(--line2);
+  background: rgba(138,209,255,.10);
+  color: var(--text);
+  padding: 8px 10px;
+  border-radius: 12px;
+  cursor:pointer;
+  font-weight: 700;
+  transition: transform .06s ease, background .15s ease, border-color .15s ease;
+}
+.btn:hover{ background: rgba(138,209,255,.16); border-color: rgba(138,209,255,.45); }
+.btn:active{ transform: translateY(1px); }
+.btnDanger{ background: rgba(255,107,107,.10); border-color: rgba(255,107,107,.35); }
+.btnDanger:hover{ background: rgba(255,107,107,.16); border-color: rgba(255,107,107,.55); }
+.btnGhost{ background: rgba(0,0,0,.18); border-color: var(--line); }
+.btnGhost:hover{ background: rgba(0,0,0,.28); border-color: rgba(138,209,255,.35); }
+
+.selectedRow{
+  display:flex; justify-content:space-between; gap:12px; align-items:flex-start;
+}
+.big{ font-size:18px; font-weight:900; letter-spacing:.2px; }
+.muted{ color:var(--muted); font-size:12px; }
+.influenceBox{
+  text-align:right;
+  padding:8px 10px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background: rgba(0,0,0,.18);
+  min-width: 86px;
+}
+.influenceNum{ font-weight:900; font-size:20px; }
+
+.btnRow{
+  display:flex; flex: 1;
+  gap:8px; flex-wrap:wrap;
+  margin: 10px 0 6px;
+}
+.divider{
+  height:1px; background: var(--line); margin: 10px 0;
+}
+
+.fieldLabel{ display:block; font-size:12px; color:var(--muted); margin: 8px 0 6px; }
+.field{
+  width:100%;
+  border-radius:12px;
+  border:1px solid var(--line);
+  background: rgba(0,0,0,.18);
+  color:var(--text);
+  padding:8px 10px;
+  outline:none;
+}
+.field:focus{ border-color: rgba(138,209,255,.45); }
+
+.smallRow{ display:flex; align-items:center; gap:10px; margin-top:10px; }
+
+.regionList{
+  display:flex; flex-direction:column; gap:8px;
+  max-height: 260px; overflow:auto; padding-right: 4px;
+}
+.regionItem{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  border:1px solid var(--line);
+  border-radius: 14px;
+  padding: 8px 10px;
+  cursor:pointer;
+  background: rgba(0,0,0,.18);
+}
+.regionItem:hover{ border-color: rgba(138,209,255,.35); }
+.regionItem.active{
+  border-color: rgba(138,209,255,.65);
+  box-shadow: 0 0 0 2px rgba(138,209,255,.18) inset;
+}
+.badge{
+  font-size:12px; font-weight:900;
+  padding: 4px 8px;
+  border-radius: 999px;
+  border:1px solid var(--line2);
+  background: rgba(138,209,255,.08);
+  color: var(--text);
+}
+.badge.good{ border-color: rgba(43,212,166,.55); background: rgba(43,212,166,.10); }
+.badge.warn{ border-color: rgba(255,204,102,.55); background: rgba(255,204,102,.10); }
+
+.log{
+  max-height: 220px; overflow:auto;
+  display:flex; flex-direction:column; gap:8px;
+  padding-right: 4px;
+}
+.logItem{
+  border:1px solid var(--line);
+  border-radius: 14px;
+  padding: 8px 10px;
+  background: rgba(0,0,0,.16);
+}
+.logTop{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.logWhat{ font-weight:800; }
+.logWhen{ color:var(--muter); font-size:12px; white-space:nowrap; }
+
+/* Overlay styling (regions are drawn in JS) */
+.overlay .regionShape{
+  fill: rgba(138,209,255,.10);
+  stroke: rgba(138,209,255,.55);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+}
+.overlay .regionShape[data-influence="0"]{
+  fill: rgba(0,0,0,.08);
+  stroke: rgba(232,238,246,.22);
+}
+.overlay .regionShape[data-influence="50"]{
+  fill: rgba(255,204,102,.12);
+  stroke: rgba(255,204,102,.70);
+}
+.overlay .regionShape[data-influence="100"]{
+  fill: rgba(43,212,166,.14);
+  stroke: rgba(43,212,166,.72);
+}
+.overlay .regionShape.active{
+  filter: drop-shadow(0 0 10px rgba(138,209,255,.35));
+  stroke-width: 3;
+}
