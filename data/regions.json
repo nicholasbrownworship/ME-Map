@@ -1,0 +1,112 @@
+[
+  {
+    "id": "shire",
+    "name": "The Shire",
+    "short": "Hobbit-land in Eriador",
+    "description": "A peaceful land west of Bree, guarded by distance and secrecy.",
+    "defaultInfluence": 0,
+    "tags": [
+      "Eriador",
+      "Hobbits"
+    ],
+    "shape": {
+      "type": "rect",
+      "bbox": [
+        75,
+        170,
+        170,
+        120
+      ]
+    },
+    "bonus50": "Once per battle: ignore the first failed Courage test.",
+    "bonus100": "Once per battle: after deployment, redeploy one friendly warband/unit."
+  },
+  {
+    "id": "bree",
+    "name": "Bree-land",
+    "short": "Crossroads of the North",
+    "description": "A rare meeting place of peoples and news in Eriador.",
+    "defaultInfluence": 0,
+    "tags": [
+      "Eriador",
+      "Inn"
+    ],
+    "shape": {
+      "type": "rect",
+      "bbox": [
+        250,
+        210,
+        150,
+        110
+      ]
+    },
+    "bonus50": "+1 to a single priority roll per battle.",
+    "bonus100": "Once per battle: after losing priority, you may re-roll it."
+  },
+  {
+    "id": "rohan",
+    "name": "Rohan",
+    "short": "Land of the Rohirrim",
+    "description": "Great plains of horse-lords between the Isen and Anduin.",
+    "defaultInfluence": 0,
+    "tags": [
+      "Riddermark",
+      "Horse"
+    ],
+    "shape": {
+      "type": "rect",
+      "bbox": [
+        650,
+        390,
+        220,
+        170
+      ]
+    },
+    "bonus50": "One model/unit may gain +1\" Move for the battle.",
+    "bonus100": "Once per battle: one mounted unit/model may re-roll a charge."
+  },
+  {
+    "id": "gondor",
+    "name": "Gondor",
+    "short": "The South-kingdom",
+    "description": "Strongholds of the West, holding the line against Mordor.",
+    "defaultInfluence": 0,
+    "tags": [
+      "Minas Tirith",
+      "Anduin"
+    ],
+    "shape": {
+      "type": "rect",
+      "bbox": [
+        760,
+        520,
+        240,
+        170
+      ]
+    },
+    "bonus50": "Once per battle: re-roll one Injury roll.",
+    "bonus100": "Once per battle: after scoring, gain +1 VP (or equivalent) if you control an objective."
+  },
+  {
+    "id": "mordor",
+    "name": "Mordor",
+    "short": "The Black Land",
+    "description": "Ash plains and fortresses under the Shadow of Barad-d\u00fbr.",
+    "defaultInfluence": 0,
+    "tags": [
+      "Shadow",
+      "Sauron"
+    ],
+    "shape": {
+      "type": "rect",
+      "bbox": [
+        980,
+        520,
+        260,
+        220
+      ]
+    },
+    "bonus50": "Once per battle: one unit/model gains +1 to Wound for a single fight/shooting sequence.",
+    "bonus100": "Once per battle: after an enemy uses a special rule/stratagem, force them to re-roll it if possible."
+  }
+]
